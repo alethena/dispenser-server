@@ -1,0 +1,25 @@
+{
+  "name": "dispenser-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "helmet": "^3.18.0",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/helmet": "0.0.43",
+    "@types/node": "^12.6.3",
+    "@types/nodemailer": "^6.2.0",
+    "typescript": "^3.5.3"
+  }
+}
