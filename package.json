@@ -7,10 +7,11 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "@types/ejs": "^2.6.3",
     "@types/mysql": "^2.15.6",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "ejs": "~2.6.1",
+    "ejs": "^2.6.2",
     "express": "^4.16.4",
     "helmet": "^3.18.0",
     "http-errors": "~1.6.3",

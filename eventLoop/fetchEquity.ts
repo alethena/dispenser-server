@@ -19,8 +19,8 @@ async function main() {
 
         companies.forEach(async (company: any) => {
             const logs = await fetchEvents(ALEQABI, company.equityAddress, company.equityLastBlock);
-            async.each(logs.filter(isEquityEvent), function (logEntry: Event, callback) {
-                stripLog(logEntry, company).then((dataToInsert) => {
+            async.each(logs.filter(isEquityEvent), function (logEntry: Event, callback: any) {
+                stripLog(logEntry, company).then((dataToInsert: any) => {
                     db.query(sqlInsertTx, dataToInsert).then(callback);
                 });
             }, () => {
