@@ -1,6 +1,6 @@
 import { TransactionReceipt } from 'web3/types';
 
-const web3 = require('./gethConnection').web3;
+const web3 = require('../web3Connection').web3;
 
 async function fetchTransactionReceipt(txHash: string): Promise<TransactionReceipt> {
     return new Promise(async function (resolve, reject) {

@@ -24,3 +24,4 @@ async function sendMail(mailParams: mailParams) {
 }
 
 module.exports.sendMail = sendMail;
+ 

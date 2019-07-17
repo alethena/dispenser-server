@@ -7,7 +7,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
+
 const indexRouter = require('./routes/index');
+const dispenserRouter = require('./routes/dispenser');
 const verifyRouter = require('./routes/verify');
 
 const app = express();
@@ -26,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/dispenser/', dispenserRouter);
 app.use('/verify/', verifyRouter);
 
 // catch 404 and forward to error handler
