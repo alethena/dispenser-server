@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <title>Your Quitt Share Trade</title>
+    <style>
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 80px;
+            font-weight: 200;
+            font-size: 24px;
+        }
+
+        .row {
+            margin: 20px auto;
+        }
+
+        p {
+            margin: 0px auto;
+            width: 80%;
+            text-align: left;
+        }
+
+        html,
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            height: 287mm;
+            width: 210mm;
+            font-size: 16px;
+        }
+
+        table {
+            width: 60%;
+            margin: 100px auto;
+        }
+
+        .english {
+            height: 100vh;
+        }
+
+        .german {
+            height: 100vh;
+        }
+
+        .french {
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="english">
+        <div class="row">
+            <img src="https://quitt.ch/wp-content/uploads/2017/09/Logo-rgb-header-2.png"
+                style="width:50%; max-width:100px; margin: 60px 45%">
+        </div>
+        <h1>Your Quitt Share Trade</h1>
+        <div class="row">
+            <p>Dear client, <br><br>
+                thank you for trading our shares. Please find below your transaction details.
+            </p>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td>Date</td>
+                    <td><%= now %></td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td><%= type %></td>
+                </tr>
+                <tr>
+                    <td>Transaction Hash</td>
+                    <td> <a href="<%= etherscanLink %>" target="_blank" rel="noopener noreferrer"></a> </td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><%= price %> Swiss Francs</td>
+                </tr>
+                <tr>
+                    <td>Number of Shares</td>
+                    <td><%= numberOfShares %></td>
+                </tr>
+                <tr>
+                    <td>Your Wallet Address</td>
+                    <td><%= walletAddress %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <p>
+                In case you bought Quitt shares, please register in our share register <a
+                    href="http://alethena.ledgy.com" target="_blank" rel="noopener noreferrer">Ledgy</a> including your
+                wallet address.
+            </p>
+        </div>
+        <div class="row">
+            <p>
+                Best regards, <br> <br>
+                Your Quitt Team
+            </p>
+        </div>
+
+
+        <div class="row" style="font-size: 12px;">
+            <p>
+                We have also sent this confirmation to your e-mail address <%= emailAddress %>.
+            </p>
+        </div>
+    </div>
+    <div class="german">
+        <div class="row">
+            <img src="https://quitt.ch/wp-content/uploads/2017/09/Logo-rgb-header-2.png"
+                style="width:50%; max-width:100px; margin: 60px 45%">
+        </div>
+        <h1>Ihr Quitt Aktienkauf</h1>
+        <div class="row">
+            <p>Sehr geehrter/-e Kunde/Kundin, <br><br>
+                vielen Dank, dass Sie unsere Aktien gehandelt haben. Nachfolgend finden Sie Ihre Transaktionsdaten.
+                <br><br>
+            </p>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td>Datum</td>
+                    <td><%= now %></td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td><%= type %></td>
+                </tr>
+                <tr>
+                    <td>Transaction Hash</td>
+                    <td> <a href="<%= etherscanLink %>" target="_blank" rel="noopener noreferrer"></a> </td>
+                </tr>
+                <tr>
+                    <td>Preis</td>
+                    <td><%= price %> Swiss Francs</td>
+                </tr>
+                <tr>
+                    <td>Anzahl Aktien</td>
+                    <td><%= numberOfShares %></td>
+                </tr>
+                <tr>
+                    <td>Ihre Wallet Address</td>
+                    <td><%= walletAddress %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <p>
+                Falls Sie Quitt Aktien gekauft haben, bitten wir Sie sich in unserem Aktienbuch inkl. Wallet Adresse bei
+                <a href="http://alethena.ledgy.com" target="_blank" rel="noopener noreferrer">Ledgy</a> zu
+                registrieren.<br><br>
+            </p>
+        </div>
+        <div class="row">
+            <p>
+                Beste Grüsse, <br> <br>
+                Ihr Quitt Team
+            </p>
+        </div>
+        <div class="row" style="font-size: 12px;">
+            <p>
+                Wir haben Ihnen diese Bestätigung zusätzlich an Ihre e-Mail Adresse <%= emailAddress %> geschickt.
+            </p>
+        </div>
+    </div>
+    <div class="french">
+        <div class="row">
+            <img src="https://quitt.ch/wp-content/uploads/2017/09/Logo-rgb-header-2.png"
+                style="width:50%; max-width:100px; margin: 60px 45%">
+        </div>
+        <h1>Votre reçu d'achat d'actions de Quitt</h1>
+        <div class="row">
+            <p>Cher client, <br><br>
+                merci beaucoup d'avoir échangé nos actions. Vous trouverez ci-dessous les détails de votre transaction.
+                <br><br>
+            </p>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td>Date</td>
+                    <td><%= now %></td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td><%= type %></td>
+                </tr>
+                <tr>
+                    <td>Transaction Hash</td>
+                    <td> <a href="<%= etherscanLink %>" target="_blank" rel="noopener noreferrer"></a> </td>
+                </tr>
+                <tr>
+                    <td>Prix</td>
+                    <td><%= price %> Swiss Francs</td>
+                </tr>
+                <tr>
+                    <td>Nombre d’actions</td>
+                    <td><%= numberOfShares %></td>
+                </tr>
+                <tr>
+                    <td>Votre Wallet adresse</td>
+                    <td><%= walletAddress %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <p>Si vous avez acheté des actions de Quitt, veuillez vous inscrire chez <a href="http://alethena.ledgy.com"
+                    target="_blank" rel="noopener noreferrer">Ledgy</a> dans notre registre des actions avec votre
+                wallet adresse. <br><br>
+            </p>
+        </div>
+        <div class="row">
+            <p>
+                Meilleures salutations, <br> <br>
+                Votre Quitt Team
+            </p>
+        </div>
+        <div class="row" style="font-size: 12px;">
+            <p>
+                Nous avons aussi envoyé cette confirmation à votre adresse e-mail <%= emailAddress %>.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

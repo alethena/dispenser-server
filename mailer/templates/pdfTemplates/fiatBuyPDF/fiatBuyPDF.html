@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <title>Your Quitt Share Purchase </title>
+    <style>
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 80px;
+            font-weight: 200;
+            font-size: 24px;
+        }
+
+        .row {
+            margin: 20px auto;
+        }
+
+        p {
+            margin: 0px auto;
+            width: 80%;
+            text-align: left;
+        }
+
+        html,
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            height: 287mm;
+            width: 210mm;
+            font-size: 16px;
+        }
+
+        table {
+            width: 60%;
+            margin: 100px auto;
+        }
+
+        .english {
+            height: 100vh;
+        }
+
+        .german {
+            height: 100vh;
+        }
+
+        .french {
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="english">
+        <div class="row">
+            <img src="https://quitt.ch/wp-content/uploads/2017/09/Logo-rgb-header-2.png"
+                style="width:50%; max-width:100px; margin: 60px 45%">
+        </div>
+        <h1>Your Quitt Share Purchase </h1>
+        <div class="row">
+            <p>Dear buyer, <br><br>
+                thank you for purchasing our shares. To finalise the transaction, we ask you to pay the purchase amount
+                within three days. Otherwise, the transaction can no longer be completed. <br><br>
+                Please make sure that you specify the payment reference <b><%= paymentReference %></b> an.
+            </p>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td>Date</td>
+                    <td><%= now %></td>
+                </tr>
+                <tr>
+                    <td>Our IBAN</td>
+                    <td>DE89 3704 0044 0532 0130 00</td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><%= price %> Swiss Francs</td>
+                </tr>
+
+                <tr>
+                    <td>Payment Reference</td>
+                    <td><%= paymentReference %></td>
+                </tr>
+
+                <tr>
+                    <td>Number of Shares</td>
+                    <td><%= numberOfShares %></td>
+                </tr>
+                <tr>
+                    <td>Your Wallet Address</td>
+                    <td><%= walletAddress %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <p>
+                We look forward to welcoming you as a shareholder soon! Please register in our share register
+                <a href="http://alethena.ledgy.com" target="_blank" rel="noopener noreferrer">Ledgy</a>
+                including your wallet address. <br><br>
+            </p>
+        </div>
+        <div class="row">
+            <p>
+                Best regards, <br> <br>
+                Your Quitt Team
+            </p>
+        </div>
+
+
+        <div class="row" style="font-size: 12px;">
+            <p>
+                We have also sent this confirmation to your e-mail address <%= emailAddress %>.
+            </p>
+        </div>
+    </div>
+    <div class="german">
+        <div class="row">
+            <img src="https://quitt.ch/wp-content/uploads/2017/09/Logo-rgb-header-2.png"
+                style="width:50%; max-width:100px; margin: 60px 45%">
+        </div>
+        <h1>Ihr Quitt Aktienkauf</h1>
+        <div class="row">
+            <p>Sehr geehrter Käufer, <br><br>
+                besten Dank für Ihren Aktienkauf. Um die Transaktion abzuschliessen, bitten wir Sie, den Kaufpreis
+                innerhalb von drei Tagen zu bezahlen. Andernfalls kann die Transaktion nicht mehr abgeschlossen werden.
+                <br><br>
+                Bitte geben Sie dabei unbedingt die Zahlungsreferenz <b><%= paymentReference %></b> an.
+            </p>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td>Datum</td>
+                    <td><%= now %></td>
+                </tr>
+                <tr>
+                    <td>Unsere IBAN</td>
+                    <td>DE89 3704 0044 0532 0130 00</td>
+                </tr>
+                <tr>
+                    <td>Preis</td>
+                    <td><%= price %> Franken</td>
+                </tr>
+
+                <tr>
+                    <td>Zahlungsreferenz</td>
+                    <td><%= paymentReference %></td>
+                </tr>
+
+                <tr>
+                    <td>Anzahl Aktien</td>
+                    <td><%= numberOfShares %></td>
+                </tr>
+                <tr>
+                    <td>Wallet Adresse</td>
+                    <td><%= walletAddress %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <p>
+                Wir freuen uns Sie bald als Aktionnär bei uns begrüssen zu dürfen! Wir freuen uns Sie bald als
+                Aktionär/Aktionärin bei uns begrüssen zu dürfen! Hierfür bitten wir Sie sich in unserem Aktienbuch inkl.
+                Wallet Adresse bei <a href="http://alethena.ledgy.com" target="_blank"
+                    rel="noopener noreferrer">Ledgy</a> zu registrieren. <br><br>
+            </p>
+        </div>
+        <div class="row">
+            <p>
+                Beste Grüsse, <br> <br>
+                Ihr Quitt Team
+            </p>
+        </div>
+        <div class="row" style="font-size: 12px;">
+            <p>
+                Wir haben Ihnen diese Bestätigung zusätzlich an Ihre e-Mail Adresse <%= emailAddress %> geschickt.
+            </p>
+        </div>
+    </div>
+    <div class="french">
+        <div class="row">
+            <img src="https://quitt.ch/wp-content/uploads/2017/09/Logo-rgb-header-2.png"
+                style="width:50%; max-width:100px; margin: 60px 45%">
+        </div>
+        <h1>Votre reçu d'achat d'actions de Quitt</h1>
+        <div class="row">
+            <p>Cher acheteuse, cher acheteur, <br><br>
+                merci beaucoup pour votre achat d'actions. Pour compléter la transaction, nous vous demandons de payer
+                le prix d'achat dans un délai de trois jours. Dans le cas contraire, la transaction ne peut plus être
+                exécutée. <br><br>
+                Veuillez vous assurer que vous entrez la référence de paiement <b><%= paymentReference %></b>.
+            </p>
+        </div>
+        <div class="row">
+            <table>
+                <tr>
+                    <td>Date</td>
+                    <td><%= now %></td>
+                </tr>
+                <tr>
+                    <td>Botre IBAN</td>
+                    <td>DE89 3704 0044 0532 0130 00</td>
+                </tr>
+                <tr>
+                    <td>Prix</td>
+                    <td><%= price %> Franken</td>
+                </tr>
+
+                <tr>
+                    <td>Référence de paiement</td>
+                    <td><%= paymentReference %></td>
+                </tr>
+
+                <tr>
+                    <td>Nombre d’actions</td>
+                    <td><%= numberOfShares %></td>
+                </tr>
+                <tr>
+                    <td>Votre Wallet adresse</td>
+                    <td><%= walletAddress %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <p>
+                Nous nous réjouissons de vous accueillir bientôt en tant qu'actionnaire! Veuillez vous inscrire chez
+                <a href="http://alethena.ledgy.com" target="_blank" rel="noopener noreferrer">Ledgy</a> dans notre
+                registre des actions avec votre wallet adresse. <br><br>
+            </p>
+        </div>
+        <div class="row">
+            <p>
+                Meilleures salutations, <br> <br>
+                Votre Quitt Team
+            </p>
+        </div>
+        <div class="row" style="font-size: 12px;">
+            <p>
+                Nous avons aussi envoyé cette confirmation à votre adresse e-mail <%= emailAddress %>.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
