@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/ejs": "^2.6.3",
     "@types/mysql": "^2.15.6",
+    "bn.js": "^5.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "^2.6.2",

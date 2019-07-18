@@ -1,6 +1,6 @@
 const Web3 = require('web3');
 const net = require('net');
-const config = require('./web3Config').web3Config;
+const config = require('./web3Config');
 var web3;
 
 

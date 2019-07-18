@@ -67,8 +67,7 @@ router.get('/signup/complete/:email/:enc/:contractaddress', function (req: Reque
     //   }, (error) => {
     //     res.status(500).send(error);
     //   });
-    } else {
-      res.render('error');
+    } else {      res.render('error');
     }
   });
 
