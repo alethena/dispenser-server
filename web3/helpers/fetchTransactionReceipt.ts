@@ -13,5 +13,5 @@ async function fetchTransactionReceipt(txHash: string): Promise<TransactionRecei
     })
 }
 
-module.exports.fetchTransactionReceipt = fetchTransactionReceipt;
+module.exports = fetchTransactionReceipt;
 export { };

@@ -28,3 +28,14 @@ export interface XCHFSellData {
     pricelimit: number,
     sessionid?: string
 }
+
+export interface InsiderRequest {
+    emailAddress: string,
+    insiderInformation: string,
+    sessionID: string
+}
+
+export interface SignupRequest {
+    emailAddress: string,
+    contractAddress: string
+}

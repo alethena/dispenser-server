@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { XCHFBuyData } from '../types/types';
-const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt')
-    .fetchTransactionReceipt;
+import { XCHFBuyData, XCHFSellData, PaymentData } from '../types/types';
+
+const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
+
 const express = require('express');
 const router = express.Router();
-// import { contract } from 'truffle-contract';
-const contract = require('truffle-contract');
 
 const web3 = require('../web3/web3Connection').web3;
+const contract = require('truffle-contract');
 
 const SDABI = require('../abis/ShareDispenserRaw.json');
 const SDAddress = '0x874f721dD3224491fe936B2a3779148Dcd95774E';
@@ -21,8 +21,6 @@ router.post('/crypto/buy', async function (
     try {
         const buyData: XCHFBuyData = req.body;
         let receipt = await fetchTransactionReceipt(buyData.txhash);
-
-        // console.log('TRANSACTION RECEIPT FOR ALLOW ', receipt);
 
         if (receipt.status !== true) {
             // HERE WE COULD CHECK ADDITIONAL STUFF!!!!
@@ -48,7 +46,7 @@ router.post('/crypto/sell', async function (
     next: NextFunction
 ) {
     try {
-        const buyData: XCHFBuyData = req.body;
+        const buyData: XCHFSellData = req.body;
         let receipt = await fetchTransactionReceipt(buyData.txhash);
 
         // console.log('TRANSACTION RECEIPT FOR ALLOW ', receipt);
@@ -77,6 +75,7 @@ router.post('/fiat', async function (
     next: NextFunction
 ) {
     try {
+        const buyData: PaymentData = req.body;
         res.json({ message: 'All good in da hood!' });
     } catch (error) {
         res.status(500);

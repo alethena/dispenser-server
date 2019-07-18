@@ -10,6 +10,8 @@ const helmet = require('helmet');
 
 const indexRouter = require('./routes/index');
 const dispenserRouter = require('./routes/dispenser');
+const insiderRouter = require('./routes/insider');
+const userRouter = require('./routes/user');
 const verifyRouter = require('./routes/verify');
 
 const app = express();
@@ -29,6 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/dispenser/', dispenserRouter);
+app.use('/insider/', insiderRouter);
+app.use('/user/', userRouter);
 app.use('/verify/', verifyRouter);
 
 // catch 404 and forward to error handler
