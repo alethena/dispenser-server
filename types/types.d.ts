@@ -51,3 +51,41 @@ export interface XCHFPDFData {
     walletAddress: string,
     emailAddress: string
 }
+
+export interface Company {
+    tokenSymbol: string,
+    companyName: string,
+    equityAddress: string,
+    equityActive: boolean,
+    SDAddress: string,
+    SDActive: boolean,
+    equityLastBlock: number,
+    SDLastBlock: number,
+    lastBlockReported: number
+}
+
+export interface InsiderTrade {
+    sessionID: string,
+    emailAddress: string,
+    insiderInformation: string,
+    txHash: string
+}
+
+export interface Notificatiion {
+    contractAddress: string,
+    emailAddress: string
+}
+
+export interface SDTransaction {
+    txhash: string,
+    contractAddress: string,
+    buy: boolean,
+    sell: boolean,
+    price: number,
+    fee: number,
+    lastPrice: number,
+    user: string,
+    amount: number,
+    blockNumber: number,
+    timestamp: Date
+}
