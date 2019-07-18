@@ -89,3 +89,20 @@ export interface SDTransaction {
     blockNumber: number,
     timestamp: Date
 }
+
+export interface equityTransaction {
+    txHash: string,
+    event: string,
+    contractAddress: string,
+    timestamp: Date
+    blockNumber: number,
+    transactionIndex: number,
+    logIndex: number,
+    sender: string,
+    receiver: string,
+    value: number
+    shareholder: string,
+    amount: number,
+    message: string
+
+}
