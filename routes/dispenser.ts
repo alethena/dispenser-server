@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { XCHFBuyData, XCHFSellData, PaymentData, XCHFPDFData, MailParams } from '../types/types';
 import { TransactionReceipt } from 'web3/types';
 const sendMail = require('../mailer/transporter');
-const htmlToPDF= require('../mailer/generatePDF');
+const htmlToPDF = require('../mailer/generatePDF');
 const path = require('path');
-
+const fs = require('fs');
 const ejs = require('ejs');
 
 const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
@@ -55,46 +55,60 @@ router.post('/crypto/buy', async function (
                 res.json({ txHash: hash });
             })
             .on('receipt', async (receipt: any) => {
-                // FIRST RENDER PDF
-                const price = receipt.logs[0].args.totalPrice.toString();
+                // if (buyData.sessionid) {
+                //     try {
+                //         await updateTradeID(buyData.sessionid, receipt.transactionHash);
+                //     } catch (error) {
+                //         console.log(error);
+                //     }
+                // };
 
-                const PDFData: XCHFPDFData = {
-                    'now': new Date(),
+                // FIRST RENDER PDF
+                const price = receipt.logs[0].args.totalPrice.toString();
+                const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
+                const now = new Date();
+
+                const PDFData: XCHFPDFData = {
+                    'now': now.toDateString(),
                     'type': 'Buy',
-                    'etherscanLink': 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash,
+                    'etherscanLink': etherscanLink,
                     'price': price,
                     'numberOfShares': buyData.numberofshares,
                     'walletAddress': receipt.from.toString(),
-                    'emailAddress': 'b.rickenbacher@intergga.ch'
+                    'emailAddress': buyData.emailAddress
                 };
 
                 const renderedHtmlPDF = await ejs.renderFile(path.join(__dirname, '../mailer/templates/pdfTemplates/xchfBuyPDF/xchBuyPDF.ejs'), PDFData);
                 const pdfFile = await htmlToPDF(renderedHtmlPDF);
 
                 // THEN RENDER MAIL
-                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/xchfBuy/xchfBuy.ejs'), {});
+                const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
+
+                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/xchfBuy/xchfBuy.ejs'), { 'style': style });
 
                 // THEN SEND EMAIL!
                 const mailParams: MailParams = {
-                    'to': ['b.rickenbacher@intergga.ch'],
+                    'to': [buyData.emailAddress],
                     'subject': 'Your share transaction',
                     'html': renderedHtmlMail,
-                    'attachments': [{'filename': 'ShareTransaction.pdf', 'content': pdfFile}]
+                    'attachments': [{ 'filename': 'ShareTransaction.pdf', 'content': pdfFile }]
                 }
                 await sendMail(mailParams);
             })
             .on('error', async (error: Error) => {
                 console.log(error);
-                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/transactionFail/transactionFail.ejs'), {});
+                const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
+
+                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/transactionFail/transactionFail.ejs'), { 'style': style });
 
                 const mailParams: MailParams = {
-                    'to': ['b.rickenbacher@intergga.ch'],
+                    'to': [buyData.emailAddress],
                     'subject': 'Your share transaction failed',
                     'html': renderedHtmlMail,
                 }
-                
+
                 await sendMail(mailParams);
-                
+
             });
     } catch (error) {
         res.json({ 'error': error.message })
@@ -107,41 +121,92 @@ router.post('/crypto/sell', async function (
     res: Response,
     next: NextFunction
 ) {
+    const sellData: XCHFSellData = req.body;
+
     try {
-        const buyData: XCHFSellData = req.body;
-        let receipt = await fetchTransactionReceipt(buyData.txhash);
-
-        // console.log('TRANSACTION RECEIPT FOR ALLOW ', receipt);
-
-        if (receipt.status !== true) {
+        const receipt = await fetchTransactionReceipt(sellData.txhash);
+        if (!receipt) {
+            throw 'Approval transaction does not exist';
+        }
+        else if (receipt.status !== true) {
             // HERE WE COULD CHECK ADDITIONAL STUFF!!!!
-            throw 'Tx does not exist or did not succeed';
+            throw 'Approval transactiondid not succeed';
         }
 
         const SDAbstraction = await contract(SDABI);
         SDAbstraction.setProvider(web3.currentProvider);
         const SDInstance = await SDAbstraction.at(SDAddress);
 
-        const buyEnabled = await SDInstance.buyEnabled.call();
-        console.log(buyEnabled);
-        res.json({ message: 'All good in da hood!' });
-    } catch (error) {
-        res.status(500);
-        res.json({ error: error });
-    }
-});
+        const coinbase = await web3.eth.getCoinbase();
+        const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
 
-router.post('/fiat', async function (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
-    try {
-        const buyData: PaymentData = req.body;
-        res.json({ message: 'All good in da hood!' });
+        SDInstance.sellShares.sendTransaction(
+            receipt.from.toString(),
+            new BN(sellData.numberofshares),
+            new BN(0),
+            { from: coinbase, gasPrice: 20 * 10 ** 9 }
+        )
+            .on('transactionHash', (hash: string) => {
+                res.json({ txHash: hash });
+            })
+            .on('receipt', async (receipt: any) => {
+                // if (sellData.sessionid) {
+                //     try {
+                //         await updateTradeID(sellData.sessionid, receipt.transactionHash);
+                //     } catch (error) {
+                //         console.log(error);
+                //     }
+                // };
+
+                // FIRST RENDER PDF
+                const price = receipt.logs[0].args.buyBackPrice.toString();
+                const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
+                const now = new Date();
+
+                const PDFData: XCHFPDFData = {
+                    'now': now.toDateString(),
+                    'type': 'Sell',
+                    'etherscanLink': etherscanLink,
+                    'price': price,
+                    'numberOfShares': sellData.numberofshares,
+                    'walletAddress': receipt.from.toString(),
+                    'emailAddress': sellData.emailAddress
+                };
+
+                const renderedHtmlPDF = await ejs.renderFile(path.join(__dirname, '../mailer/templates/pdfTemplates/xchfBuyPDF/xchBuyPDF.ejs'), PDFData);
+                const pdfFile = await htmlToPDF(renderedHtmlPDF);
+
+                // THEN RENDER MAIL
+                const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
+
+                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/xchfBuy/xchfBuy.ejs'), { 'style': style });
+
+                // THEN SEND EMAIL!
+                const mailParams: MailParams = {
+                    'to': [sellData.emailAddress],
+                    'subject': 'Your share transaction',
+                    'html': renderedHtmlMail,
+                    'attachments': [{ 'filename': 'ShareTransaction.pdf', 'content': pdfFile }]
+                }
+                await sendMail(mailParams);
+            })
+            .on('error', async (error: Error) => {
+                console.log(error);
+                const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
+
+                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/transactionFail/transactionFail.ejs'), { 'style': style });
+
+                const mailParams: MailParams = {
+                    'to': [sellData.emailAddress],
+                    'subject': 'Your share transaction failed',
+                    'html': renderedHtmlMail,
+                }
+
+                await sendMail(mailParams);
+
+            });
     } catch (error) {
-        res.status(500);
-        res.json({ error: error });
+        res.json({ 'error': error.message })
     }
 });
 

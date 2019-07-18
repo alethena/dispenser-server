@@ -19,6 +19,7 @@ export interface PaymentData {
 export interface XCHFBuyData {
     txhash: string,
     numberofshares: number,
+    emailAddress: string,
     sessionid?: string
 }
 
@@ -26,6 +27,7 @@ export interface XCHFSellData {
     txhash: string,
     numberofshares: number,
     pricelimit: number,
+    emailAddress: string,
     sessionid?: string
 }
 
@@ -41,7 +43,7 @@ export interface SignupRequest {
 }
 
 export interface XCHFPDFData {
-    now: Date,
+    now: string,
     type: string,
     etherscanLink: string,
     price: string,
