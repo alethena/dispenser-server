@@ -1,4 +1,4 @@
-export interface mailParams {
+export interface MailParams {
     to: string[],
     subject: string,
     html: string,
@@ -38,4 +38,14 @@ export interface InsiderRequest {
 export interface SignupRequest {
     emailAddress: string,
     contractAddress: string
+}
+
+export interface XCHFPDFData {
+    now: Date,
+    type: string,
+    etherscanLink: string,
+    price: string,
+    numberOfShares: number,
+    walletAddress: string,
+    emailAddress: string
 }

@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { XCHFBuyData, XCHFSellData, PaymentData } from '../types/types';
+import { XCHFBuyData, XCHFSellData, PaymentData, XCHFPDFData, MailParams } from '../types/types';
 import { TransactionReceipt } from 'web3/types';
+const sendMail = require('../mailer/transporter');
+const htmlToPDF= require('../mailer/generatePDF');
+const path = require('path');
+
+const ejs = require('ejs');
 
 const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
 
@@ -47,14 +52,48 @@ router.post('/crypto/buy', async function (
             { from: coinbase, gasPrice: 20 * 10 ** 9 }
         )
             .on('transactionHash', (hash: string) => {
-                // HERE ANSWER WITH THE TX HASH
                 res.json({ txHash: hash });
             })
-            .on('receipt', (receipt: TransactionReceipt) => {
-                // HERE SEND EMAIL!
+            .on('receipt', async (receipt: any) => {
+                // FIRST RENDER PDF
+                const price = receipt.logs[0].args.totalPrice.toString();
+
+                const PDFData: XCHFPDFData = {
+                    'now': new Date(),
+                    'type': 'Buy',
+                    'etherscanLink': 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash,
+                    'price': price,
+                    'numberOfShares': buyData.numberofshares,
+                    'walletAddress': receipt.from.toString(),
+                    'emailAddress': 'b.rickenbacher@intergga.ch'
+                };
+
+                const renderedHtmlPDF = await ejs.renderFile(path.join(__dirname, '../mailer/templates/pdfTemplates/xchfBuyPDF/xchBuyPDF.ejs'), PDFData);
+                const pdfFile = await htmlToPDF(renderedHtmlPDF);
+
+                // THEN RENDER MAIL
+                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/xchfBuy/xchfBuy.ejs'), {});
+
+                // THEN SEND EMAIL!
+                const mailParams: MailParams = {
+                    'to': ['b.rickenbacher@intergga.ch'],
+                    'subject': 'Your share transaction',
+                    'html': renderedHtmlMail,
+                    'attachments': [{'filename': 'ShareTransaction.pdf', 'content': pdfFile}]
+                }
+                await sendMail(mailParams);
             })
-            .on('error', (error: Error) => {
-                // SEND FAIL MAIL INCLUDE ETHERSCAN LINK IF APPROPRIATE
+            .on('error', async (error: Error) => {
+                console.log(error);
+                const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/transactionFail/transactionFail.ejs'), {});
+
+                const mailParams: MailParams = {
+                    'to': ['b.rickenbacher@intergga.ch'],
+                    'subject': 'Your share transaction failed',
+                    'html': renderedHtmlMail,
+                }
+                
+                await sendMail(mailParams);
                 
             });
     } catch (error) {

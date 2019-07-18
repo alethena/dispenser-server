@@ -2,9 +2,9 @@ const nodeoutlook = require('nodejs-nodemailer-outlook');
 
 const config = require('./config').mailConfig;
 
-import { mailParams } from '../types/types';
+import { MailParams } from '../types/types';
 
-async function sendMail(mailParams: mailParams) {
+async function sendMail(mailParams: MailParams) {
   return new Promise((resolve, reject) => {
     nodeoutlook.sendEmail({
       auth: config.auth,
@@ -23,5 +23,5 @@ async function sendMail(mailParams: mailParams) {
   });
 }
 
-module.exports.sendMail = sendMail;
+module.exports = sendMail;
  

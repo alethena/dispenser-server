@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { SignupRequest } from '../types/types';
-const sendMail = require('../mailer/transporter').sendMail;
-
+const sendMail = require('../mailer/transporter');
 const QuickEncrypt = require('quick-encrypt')
 const keys = QuickEncrypt.generate(1024) // Use either 2048 bits or 1024 bits.
-import { mailParams } from '../types/types';
+import { MailParams } from '../types/types';
 
 const express = require('express');
 const router = express.Router();
@@ -28,7 +27,7 @@ router.post('/signup/request', async function (req: Request, res: Response, next
     const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
     const renderedHtml = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/signup/signup.ejs'), { 'link': link, 'style': style });
 
-    const mailProps: mailParams = {
+    const mailProps: MailParams = {
         'to': [requestData.emailAddress],
         'subject': 'verify your email address',
         'html': renderedHtml,

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { mailParams } from '../types/types';
+import { MailParams } from '../types/types';
 import { readFileSync } from 'fs';
 const uuidv4 = require('uuid/v4');
 const md5 = require('md5');
-const sendMail = require('../mailer/transporter').sendMail;
+const sendMail = require('../mailer/transporter');
 const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
@@ -19,7 +19,7 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
     const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
     const renderedHtml = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/insiderVerification/insiderVerification.ejs'), { 'code': userCode, 'style': style });
 
-    const mailProps: mailParams = {
+    const mailProps: MailParams = {
         'to': [userMail],
         'subject': 'verify your email address',
         'html': renderedHtml,
