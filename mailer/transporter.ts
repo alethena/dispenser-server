@@ -9,7 +9,7 @@ async function sendMail(mailParams: MailParams) {
     nodeoutlook.sendEmail({
       auth: config.auth,
       from: 'noreply@alethena.com',
-      to: mailParams.to,
+      bcc: mailParams.to,
       subject: mailParams.subject,
       html: mailParams.html,
       attachments: mailParams.attachments,

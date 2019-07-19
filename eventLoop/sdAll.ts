@@ -5,10 +5,10 @@ const db = require('../database/dbConnection');
 const fs = require('fs');
 const path = require('path');
 const outputPath = '../public/log';
-var Raven = require('raven');
+// var Raven = require('raven');
 const convertToCSV = require('../csv/insiderCSV');
 
-Raven.config('https://853db40d557b42189a6b178ba7428001@sentry.io/1470742').install();
+// Raven.config('https://853db40d557b42189a6b178ba7428001@sentry.io/1470742').install();
 
 async function generateSDAll() {
     // select * from SDTransactions left join insiderTrades on SDTransactions.txhash = insiderTrades.txHash
