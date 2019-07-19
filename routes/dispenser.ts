@@ -52,7 +52,7 @@ router.post('/crypto/buy', async function (
             { from: coinbase, gasPrice: 20 * 10 ** 9 }
         )
             .on('transactionHash', (hash: string) => {
-                res.json({ txHash: hash });
+                res.json({ txhash: hash });
             })
             .on('receipt', async (receipt: any) => {
                 // if (buyData.sessionid) {
@@ -147,7 +147,7 @@ router.post('/crypto/sell', async function (
             { from: coinbase, gasPrice: 20 * 10 ** 9 }
         )
             .on('transactionHash', (hash: string) => {
-                res.json({ txHash: hash });
+                res.json({ txhash: hash });
             })
             .on('receipt', async (receipt: any) => {
                 // if (sellData.sessionid) {

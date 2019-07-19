@@ -9,6 +9,8 @@
   "dependencies": {
     "@types/ejs": "^2.6.3",
     "@types/mysql": "^2.15.6",
+    "@types/node": "^12.6.8",
+    "@types/web3": "^1.0.19",
     "async": "^3.1.0",
     "bn.js": "^5.0.0",
     "cookie-parser": "~1.4.4",
