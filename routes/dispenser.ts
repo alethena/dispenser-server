@@ -6,6 +6,7 @@ const htmlToPDF = require('../mailer/generatePDF');
 const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
+const updateTradeID = require('../database/insider/updateTradeID');
 
 const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
 
@@ -55,13 +56,13 @@ router.post('/crypto/buy', async function (
                 res.json({ txhash: hash });
             })
             .on('receipt', async (receipt: any) => {
-                // if (buyData.sessionid) {
-                //     try {
-                //         await updateTradeID(buyData.sessionid, receipt.transactionHash);
-                //     } catch (error) {
-                //         console.log(error);
-                //     }
-                // };
+                if (buyData.sessionid) {
+                    try {
+                        await updateTradeID(buyData.sessionid, receipt.transactionHash);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                };
 
                 // FIRST RENDER PDF
                 const price = receipt.logs[0].args.totalPrice.toString();
@@ -150,13 +151,13 @@ router.post('/crypto/sell', async function (
                 res.json({ txhash: hash });
             })
             .on('receipt', async (receipt: any) => {
-                // if (sellData.sessionid) {
-                //     try {
-                //         await updateTradeID(sellData.sessionid, receipt.transactionHash);
-                //     } catch (error) {
-                //         console.log(error);
-                //     }
-                // };
+                if (sellData.sessionid) {
+                    try {
+                        await updateTradeID(sellData.sessionid, receipt.transactionHash);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                };
 
                 // FIRST RENDER PDF
                 const price = receipt.logs[0].args.buyBackPrice.toString();

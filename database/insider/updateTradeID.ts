@@ -1,4 +1,4 @@
-const db = require('./dbConnection');
+const db = require('../dbConnection');
 import { MysqlError } from 'mysql';
 
 async function updateTradeIDs(sessionID: string, txHash: string) {

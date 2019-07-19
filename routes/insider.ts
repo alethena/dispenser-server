@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+const db = require('../database/dbConnection');
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
@@ -13,9 +14,13 @@ import { InsiderRequest } from '../types/types';
 /* POST a request to verify email address*/
 router.post('/', async function (req: Request, res: Response, next: NextFunction) {
     const insiderRequest: InsiderRequest = req.body;
-    console.log(insiderRequest);
-    // WRITE TO DB SOMEWHERE
+    // console.log(insiderRequest);
+
+    const sql = `insert into insiderTrades (sessionID, emailAddress, insiderInformation) values (?,?,?);`;
+    const values = [insiderRequest.sessionID, insiderRequest.emailAddress, insiderRequest.insiderInformation];
+
     try {
+        await db.query(sql, values);
         const renderedHtml = await ejs.renderFile(path.join(__dirname, '../mailer/templates/pdfTemplates/insiderPDF/insiderPDF.ejs'), { 'text': insiderRequest.insiderInformation });
         const pdfFile = await htmlToPDF(renderedHtml);
         fs.writeFileSync(path.join(__dirname, '../public/insiderPDFs/' + insiderRequest.sessionID + '.pdf'), pdfFile);
