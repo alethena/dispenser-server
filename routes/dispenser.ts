@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 const updateTradeID = require('../database/insider/updateTradeID');
+const generatePaymentReference = require('../helpers/referenceGenerator');
 
 const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
 
@@ -210,5 +211,56 @@ router.post('/crypto/sell', async function (
         res.json({ 'error': error.message })
     }
 });
+
+router.post('/fiat/', async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const requestData: PaymentData = req.body;
+        const paymentReference = generatePaymentReference(requestData);
+
+        const now = new Date();
+
+        const PDFData: any = {
+            'now': now.toDateString(),
+            'type': 'Sell',
+            'paymentReference': paymentReference,
+            'price': requestData.price,
+            'numberOfShares': requestData.numberOfShares,
+            'walletAddress': requestData.walletAddress,
+            'emailAddress': requestData.emailAddress
+        };
+
+
+        const renderedHtmlPDF = await ejs.renderFile(path.join(__dirname, '../mailer/templates/pdfTemplates/fiatBuyPDF/fiatBuyPDF.ejs'), PDFData);
+        const pdfFile = await htmlToPDF(renderedHtmlPDF);
+        fs.writeFileSync(path.join(__dirname, '../public/fiat/' + paymentReference + '.pdf'), pdfFile);
+
+        const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
+        const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/fiatBuy/fiatBuy.ejs'), { 'style': style });
+
+        const mailParams: MailParams = {
+            'to': [requestData.emailAddress],
+            'subject': 'Your share transaction',
+            'html': renderedHtmlMail,
+            'attachments': [{ 'filename': 'Invoice.pdf', 'content': pdfFile }]
+        }
+        await sendMail(mailParams);
+
+        res.contentType('application/json');
+        res.send({
+            "message": 'Trade registered',
+            "paymentReference": paymentReference
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+        res.send({'error': 'An error occured, sorry!'})
+    }
+
+})
 
 module.exports = router;
