@@ -29,6 +29,10 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+const mainLoop = require('../eventLoop/mainLoop');
+
+mainLoop();
+
 /**
  * Normalize a port into a number, string, or false.
  */

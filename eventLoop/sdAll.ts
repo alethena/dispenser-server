@@ -1,12 +1,12 @@
 import { Company } from "../types/types";
 import { EventLog } from "web3/types";
 
-const db = require('../database/db');
+const db = require('../database/dbConnection');
 const fs = require('fs');
 const path = require('path');
 const outputPath = '../public/log';
 var Raven = require('raven');
-const convertToCSV = require('../helpers/formatInsiderCSV').convertToCSV;
+const convertToCSV = require('../csv/insiderCSV');
 
 Raven.config('https://853db40d557b42189a6b178ba7428001@sentry.io/1470742').install();
 
@@ -16,28 +16,43 @@ async function generateSDAll() {
     const companies = await db.query(sql1, []);
     //console.log(companies);
     companies.forEach(async (company: Company) => {
-	//console.log(company.SDAddress);
+        //console.log(company.SDAddress);
         let outputFile: any = [];
+        let outputFile2: any = [];
         const sql2 = `select * from SDTransactions left join insiderTrades on SDTransactions.txhash = insiderTrades.txHash order by timestamp DESC;`;
-        db.query(sql2, [company.SDAddress]).then((log: EventLog[]) => {
-            log.forEach(async (logItem: any) => {
+        db.query(sql2, [company.SDAddress]).then(async (log: EventLog[]) => {
+            log.forEach((logItem: any) => {
                 outputFile.push({
                     "timestamp": new Date(logItem.timestamp).getTime(),
                     "type": (logItem.buy === 0) ? "Verkauf" : "Kauf",
                     "amount": logItem.amount,
-                    "price": Math.floor(logItem.price/10**16)/100,
+                    "price": Math.floor(logItem.price / 10 ** 16) / 100,
                     "insider": (logItem.sessionID) ? "https://api-dev.alethena.com/insider/static/" + logItem.sessionID + ".pdf" : 'Nein'
                 })
-        fs.writeFileSync(path.join(__dirname, '../public/' + company.tokenSymbol + '_SD.json'), JSON.stringify(outputFile));
-        const newCSV = await convertToCSV(outputFile);
-        fs.writeFileSync(path.join(__dirname, '../public/' + company.tokenSymbol + '_SD.csv'), newCSV);
-
             });
+            fs.writeFileSync(path.join(__dirname, '../public/dispenser/' + company.tokenSymbol + 'SD.json'), JSON.stringify(outputFile));
+
+            log.forEach((logItem: any) => {
+                outputFile2.push({
+                    "timestamp": new Date(logItem.timestamp).toISOString(),
+                    "blockNumber": logItem.blockNumber,
+                    "txhash": logItem.txhash,
+                    "contractAddress": logItem.contractAddress,
+                    "buy": logItem.buy === 1,
+                    "sell": logItem.buy === 0,
+                    "amount": logItem.amount,
+                    "price": Math.floor(logItem.price / 10 ** 16 / logItem.amount) / 100,
+                    "volume": Math.floor(logItem.price / 10 ** 16) / 100,
+                    "insider": (logItem.sessionID) ? logItem.insiderInformation : 'Nein',
+                    "user": logItem.user
+                })
+            });
+            const newCSV = await convertToCSV(outputFile2);
+            fs.writeFileSync(path.join(__dirname, '../public/dispenser/' + company.tokenSymbol + 'SD.csv'), newCSV);
         });
-        //fs.writeFileSync(path.join(__dirname, '../public/' + company.tokenSymbol + '_SD.json'), JSON.stringify(outputFile));
     })
 }
 
-module.exports.generateSDAll = generateSDAll;
+module.exports = generateSDAll;
 
 

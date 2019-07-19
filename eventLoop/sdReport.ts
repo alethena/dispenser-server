@@ -1,6 +1,6 @@
 import { Company } from "../types/types";
 
-const db = require('../database/db');
+const db = require('../database/dbConnection');
 const async = require('async');
 const sendMail = require('../mailer/SDNotificationMail').sendSDNotification;
 const convertToCSV = require('../helpers/formatCSV').convertToCSV;

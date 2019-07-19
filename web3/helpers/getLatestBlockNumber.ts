@@ -1,5 +1,5 @@
 
-const web3 = require('./gethConnection').web3;
+const web3 = require('../web3Connection').web3;
 
 async function getLatestBlockNumber(): Promise<number> {
     return new Promise(async function (resolve, reject) {

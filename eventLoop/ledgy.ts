@@ -1,7 +1,7 @@
 import { Company } from "../types/types";
 import { EventLog } from "web3/types";
 
-const db = require('../database/db');
+const db = require('../database/dbConnection');
 const fs = require('fs');
 const path = require('path');
 const outputPath = '../public/log';
@@ -46,7 +46,7 @@ async function generateLedgyLog() {
                         });
                     }
                 });
-                fs.writeFileSync(path.join(__dirname, '../public/' + company.tokenSymbol + '.json'), JSON.stringify(outputFile))
+                fs.writeFileSync(path.join(__dirname, '../public/logs/' + company.tokenSymbol + '.json'), JSON.stringify(outputFile))
                 // fs.writeFileSync(outputPath + company.tokenSymbol + '.json', JSON.stringify(outputFile));
                 // console.log(outputFile);
             });
@@ -57,4 +57,4 @@ async function generateLedgyLog() {
     }
 }
 
-module.exports.generateLedgyLog = generateLedgyLog;
+module.exports = generateLedgyLog;

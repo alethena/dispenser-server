@@ -1,7 +1,7 @@
 import ABI from 'web3/eth/abi';
 import { EventLog } from 'web3/types';
 
-const web3 = require('./gethConnection').web3;
+const web3 = require('../web3Connection').web3;
 
 async function fetchEvents(abi: ABI, contractAddress: string, startingBlock: number): Promise<EventLog[]>{
     return new Promise(async function (resolve, reject) {

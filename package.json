@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/ejs": "^2.6.3",
     "@types/mysql": "^2.15.6",
+    "async": "^3.1.0",
     "bn.js": "^5.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -16,6 +17,7 @@
     "express": "^4.16.4",
     "helmet": "^3.18.0",
     "http-errors": "~1.6.3",
+    "json2csv": "^4.5.2",
     "md5": "^2.2.1",
     "morgan": "~1.9.1",
     "mysql": "^2.17.1",
@@ -24,6 +26,7 @@
     "nodemailer": "^6.3.0",
     "puppeteer": "^1.18.1",
     "quick-encrypt": "^1.0.8",
+    "raven": "^2.6.4",
     "truffle-contract": "^4.0.24",
     "uuid": "^3.3.2",
     "web3": "^1.0.0-beta.37"

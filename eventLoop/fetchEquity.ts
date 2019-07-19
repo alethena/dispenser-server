@@ -7,7 +7,7 @@ const fetchEvents = require('../web3/helpers/fetchevents').fetchEvents;
 const blockNumberToTimestamp = require('../web3/helpers/blockNumberToTimestamp').blockNumberToTimestamp;
 const getLatestBlockNumber = require('../web3/helpers/getLatestBlockNumber').getLatestBlockNumber;
 
-const ALEQABI = require('../abis/ALEQABI.json');
+const ALEQABI = require('../abis/ALEQ.json');
 const async = require('async');
 const stripLog = require('../helpers/stripEquityLog').stripLog;
 
