@@ -7,6 +7,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "@sentry/node": "^5.5.0",
     "@types/ejs": "^2.6.3",
     "@types/mysql": "^2.15.6",
     "@types/node": "^12.6.8",

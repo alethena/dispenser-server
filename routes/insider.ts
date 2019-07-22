@@ -9,6 +9,9 @@ const path = require('path');
 const htmlToPDF = require('../mailer/generatePDF');
 const ejs = require('ejs');
 
+const Raven = require('raven');
+Raven.config('https://c62c738ee3954263a16c3f53af05a4e8@sentry.io/1510309').install();
+
 import { InsiderRequest } from '../types/types';
 
 /* POST a request to verify email address*/
@@ -27,7 +30,7 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
         res.json({ 'msg': 'Trade was registered' });
 
     } catch (error) {
-
+        Raven.captureException(error);
     }
 });
 

@@ -22,7 +22,7 @@ async function fetchSD() {
             // length = logs.length;
             async.each(logs.filter(isSDTransaction), function (logEntry: EventLog, callback:any) {
                 stripLog(logEntry, company).then((dataToInsert: any) => {
-                    console.log(dataToInsert);
+                    // console.log(dataToInsert);
                     callback;
                     db.query(sqlInsertTx, dataToInsert).then(callback);
                 });

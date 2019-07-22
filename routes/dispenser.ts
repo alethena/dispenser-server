@@ -23,6 +23,9 @@ const SDAddress = '0x874f721dD3224491fe936B2a3779148Dcd95774E';
 
 const CoinbasePW = require('../web3/web3Config').CoinbasePW;
 
+const Raven = require('raven');
+Raven.config('https://c62c738ee3954263a16c3f53af05a4e8@sentry.io/1510309').install();
+
 /* POST a request to verify email address*/
 router.post('/crypto/buy', async function (
     req: Request,
@@ -66,7 +69,7 @@ router.post('/crypto/buy', async function (
                 };
 
                 // FIRST RENDER PDF
-                const price = receipt.logs[0].args.totalPrice.toString();
+                const price = Math.ceil(receipt.logs[0].args.totalPrice / 10 ** 18);
                 const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
@@ -74,7 +77,7 @@ router.post('/crypto/buy', async function (
                     'now': now.toDateString(),
                     'type': 'Buy',
                     'etherscanLink': etherscanLink,
-                    'price': price,
+                    'price': price.toString(),
                     'numberOfShares': buyData.numberofshares,
                     'walletAddress': receipt.from.toString(),
                     'emailAddress': buyData.emailAddress
@@ -91,13 +94,14 @@ router.post('/crypto/buy', async function (
                 // THEN SEND EMAIL!
                 const mailParams: MailParams = {
                     'to': [buyData.emailAddress],
-                    'subject': 'Your share transaction',
+                    'subject': 'Your Share Transaction',
                     'html': renderedHtmlMail,
                     'attachments': [{ 'filename': 'ShareTransaction.pdf', 'content': pdfFile }]
                 }
                 await sendMail(mailParams);
             })
             .on('error', async (error: Error) => {
+                Raven.captureException(error);
                 console.log(error);
                 const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
 
@@ -105,7 +109,7 @@ router.post('/crypto/buy', async function (
 
                 const mailParams: MailParams = {
                     'to': [buyData.emailAddress],
-                    'subject': 'Your share transaction failed',
+                    'subject': 'Your Share Transaction Failed',
                     'html': renderedHtmlMail,
                 }
 
@@ -113,6 +117,7 @@ router.post('/crypto/buy', async function (
 
             });
     } catch (error) {
+        Raven.captureException(error);
         res.json({ 'error': error.message })
     }
 
@@ -186,13 +191,14 @@ router.post('/crypto/sell', async function (
                 // THEN SEND EMAIL!
                 const mailParams: MailParams = {
                     'to': [sellData.emailAddress],
-                    'subject': 'Your share transaction',
+                    'subject': 'Your Share Transaction',
                     'html': renderedHtmlMail,
                     'attachments': [{ 'filename': 'ShareTransaction.pdf', 'content': pdfFile }]
                 }
                 await sendMail(mailParams);
             })
             .on('error', async (error: Error) => {
+                Raven.captureException(error);
                 console.log(error);
                 const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
 
@@ -200,7 +206,7 @@ router.post('/crypto/sell', async function (
 
                 const mailParams: MailParams = {
                     'to': [sellData.emailAddress],
-                    'subject': 'Your share transaction failed',
+                    'subject': 'Your Share Transaction Failed',
                     'html': renderedHtmlMail,
                 }
 
@@ -208,6 +214,7 @@ router.post('/crypto/sell', async function (
 
             });
     } catch (error) {
+        Raven.captureException(error);
         res.json({ 'error': error.message })
     }
 });
@@ -243,7 +250,7 @@ router.post('/fiat/', async function (
 
         const mailParams: MailParams = {
             'to': [requestData.emailAddress],
-            'subject': 'Your share transaction',
+            'subject': 'Your Share Purchase',
             'html': renderedHtmlMail,
             'attachments': [{ 'filename': 'Invoice.pdf', 'content': pdfFile }]
         }
@@ -256,6 +263,7 @@ router.post('/fiat/', async function (
         });
 
     } catch (error) {
+        Raven.captureException(error);
         console.log(error);
         res.status(500);
         res.send({'error': 'An error occured, sorry!'})

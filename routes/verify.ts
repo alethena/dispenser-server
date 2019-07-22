@@ -8,6 +8,9 @@ const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
 
+const Raven = require('raven');
+Raven.config('https://c62c738ee3954263a16c3f53af05a4e8@sentry.io/1510309').install();
+
 const express = require('express');
 const router = express.Router();
 
@@ -21,7 +24,7 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
 
     const mailProps: MailParams = {
         'to': [userMail],
-        'subject': 'verify your email address',
+        'subject': 'Verify Your Email Address',
         'html': renderedHtml,
     };
 
@@ -29,6 +32,7 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
         await sendMail(mailProps);
         res.json({ 'hashedvalue': md5(userCode + userMail) });
     } catch (error) {
+        Raven.captureException(error);
         res.status(500);
         res.json({ 'error': 'A fuckup happened' });
     }

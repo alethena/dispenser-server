@@ -11,6 +11,7 @@ const ALEQABI = require('../abis/ALEQ.json');
 const async = require('async');
 const stripLog = require('../helpers/stripEquityLog').stripLog;
 
+
 // FIX 'data to insert type'
 
 async function fetchEquity() {
@@ -32,7 +33,7 @@ async function fetchEquity() {
                 });
             });
         } catch (error) {
-            console.log(error)
+            console.log(error);
             reject(error);
         }
     })
