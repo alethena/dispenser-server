@@ -8,37 +8,18 @@ const SDReport = require('./sdReport');
 async function main() {
     var j = schedule.scheduleJob('*/1 * * * *', async function () {
         console.log(new Date());
+        
         try {
-            await fetchEquity();
+            await Promise.all([fetchEquity(), fetchSD()]);
         } catch (error) {
             console.log(error)
         }
 
         try {
-            await fetchSD();
+            await Promise.all([SDReport(), ledgyLog(), SDAll()])
         } catch (error) {
             console.log(error)
         }
-
-        try {
-            await SDReport();
-        } catch (error) {
-            console.log(error)
-        }
-
-        try {
-            await ledgyLog();
-        } catch (error) {
-            console.log(error)
-        }
-
-        try {
-            await SDAll();
-        } catch (error) {
-            console.log(error)
-        }
-
-        // SD REPORT STILL MISSING !!!
 
     });
 }
