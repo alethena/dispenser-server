@@ -9,6 +9,24 @@ const ejs = require('ejs');
 const updateTradeID = require('../database/insider/updateTradeID');
 const generatePaymentReference = require('../helpers/referenceGenerator');
 
+var cors = require('cors');
+
+
+const whitelist = ['https://dev.alethena.com'];
+// const whitelist = ['*'];
+
+const corsOptions = {
+    origin: function (origin: any, callback: any) {
+        if (whitelist.indexOf(origin) !== -1 && origin) {
+            callback(null, true)
+        } else {
+            // overriding cors block for now
+            callback(null, true)
+            // callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
 const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
 
 const express = require('express');
@@ -27,7 +45,7 @@ const Raven = require('raven');
 Raven.config('https://c62c738ee3954263a16c3f53af05a4e8@sentry.io/1510309').install();
 
 /* POST a request to verify email address*/
-router.post('/crypto/buy', async function (
+router.post('/crypto/buy', cors(corsOptions), async function (
     req: Request,
     res: Response,
     next: NextFunction
@@ -118,12 +136,12 @@ router.post('/crypto/buy', async function (
             });
     } catch (error) {
         Raven.captureException(error);
-        res.json({ 'error': error.message })
+        res.json({ 'error': 'An error occured, sorry!' })
     }
 
 });
 
-router.post('/crypto/sell', async function (
+router.post('/crypto/sell', cors(corsOptions), async function (
     req: Request,
     res: Response,
     next: NextFunction
@@ -215,11 +233,11 @@ router.post('/crypto/sell', async function (
             });
     } catch (error) {
         Raven.captureException(error);
-        res.json({ 'error': error.message })
+        res.json({ 'error': 'An error occured, sorry!' })
     }
 });
 
-router.post('/fiat/', async function (
+router.post('/fiat/', cors(corsOptions), async function (
     req: Request,
     res: Response,
     next: NextFunction
@@ -264,9 +282,8 @@ router.post('/fiat/', async function (
 
     } catch (error) {
         Raven.captureException(error);
-        console.log(error);
         res.status(500);
-        res.send({'error': 'An error occured, sorry!'})
+        res.send({ 'error': 'An error occured, sorry!' })
     }
 
 })

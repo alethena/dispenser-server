@@ -17,6 +17,11 @@ const verifyRouter = require('./routes/verify');
 
 const app = express();
 
+// const corsOptions = {
+//   origin: 'https://dev.alethena.com',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -45,8 +50,14 @@ app.use(function(req : Request, res: Response, next: NextFunction) {
 // error handler
 app.use(function(err: any, req : Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // res.locals.message = err.message;
+  res.locals.message = 'Sorry, an error occured!';
+  // res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = {};
+  if (err.message == 'Not allowed by CORS') {
+    res.locals.message = 'Forbidden';
+    err.status = 403;
+  }
 
   // render the error page
   res.status(err.status || 500);

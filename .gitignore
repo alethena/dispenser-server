@@ -2,3 +2,6 @@
 node_modules/
 database/dbConfig.ts
 mailer/config.ts
+public/dispenser/QUITTSD.csv
+public/dispenser/QUITTSD.json
+public/logs/QUITT.json

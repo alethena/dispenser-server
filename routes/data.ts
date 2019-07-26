@@ -2,8 +2,15 @@ import { Request, Response, NextFunction } from "express";
 
 const express = require('express');
 const router = express.Router();
-const db = require('../database/dbConnection');
 
+const cors = require('cors');
+
+// const corsOptions = {
+//     origin: 'https://dev.alethena.com',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
+
+const db = require('../database/dbConnection');
 
 router.get('/prices/:contractAddress', function (req: Request, res: Response, next: NextFunction) {
     const contract = req.params.contractAddress;
