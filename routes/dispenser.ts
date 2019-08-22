@@ -12,8 +12,8 @@ const generatePaymentReference = require('../helpers/referenceGenerator');
 var cors = require('cors');
 
 
-const whitelist = ['https://dev.alethena.com'];
-// const whitelist = ['*'];
+// const whitelist = ['https://dev.alethena.com'];
+const whitelist = ['*'];
 
 const corsOptions = {
     origin: function (origin: any, callback: any) {
@@ -184,7 +184,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
                 };
 
                 // FIRST RENDER PDF
-                const price = receipt.logs[0].args.buyBackPrice.toString();
+                const price = Math.ceil(receipt.logs[0].args.buyBackPrice / 10 ** 18);
                 const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
@@ -192,7 +192,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
                     'now': now.toDateString(),
                     'type': 'Sell',
                     'etherscanLink': etherscanLink,
-                    'price': price,
+                    'price': price.toString(),
                     'numberOfShares': sellData.numberofshares,
                     'walletAddress': receipt.from.toString(),
                     'emailAddress': sellData.emailAddress
