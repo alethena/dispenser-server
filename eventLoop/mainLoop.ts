@@ -13,13 +13,14 @@ async function main() {
         console.log(new Date());
 
         try {
-            await Promise.all([fetchEquity(), fetchSD()]);
+	  await fetchEquity();
+          await Promise.all([fetchEquity(), fetchSD()]);
         } catch (error) {
             Raven.captureException(error);
         }
 
         try {
-            await Promise.all([SDReport(), ledgyLog(), SDAll()])
+          await Promise.all([SDReport(), ledgyLog(), SDAll()])
         } catch (error) {
             Raven.captureException(error);
         }

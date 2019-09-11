@@ -12,7 +12,7 @@ async function stripLog(logEntry: any, company: Company) {
             if (logEntry.event === "SharesPurchased") {
                 user = logEntry.returnValues.buyer;
                 buy = true;
-                totalPrice = logEntry.returnValues.totalPrice;
+                totalPrice = logEntry.returnValues.price;
 
             } else {
                 user = logEntry.returnValues.seller;

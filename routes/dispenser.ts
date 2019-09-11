@@ -37,7 +37,7 @@ const web3 = require('../web3/web3Connection').web3;
 const contract = require('truffle-contract');
 
 const SDABI = require('../abis/ShareDispenserRaw.json');
-const SDAddress = '0x874f721dD3224491fe936B2a3779148Dcd95774E';
+const SDAddress = '0x39ABdadA4eC31CA97930aac5E15DD6478AAE0943';
 
 const CoinbasePW = require('../web3/web3Config').CoinbasePW;
 
@@ -67,7 +67,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
         const SDInstance = await SDAbstraction.at(SDAddress);
 
         const coinbase = await web3.eth.getCoinbase();
-        const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
+        //const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
 
         SDInstance.buyShares.sendTransaction(
             receipt.from.toString(),
@@ -163,7 +163,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
         const SDInstance = await SDAbstraction.at(SDAddress);
 
         const coinbase = await web3.eth.getCoinbase();
-        const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
+        //const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
 
         SDInstance.sellShares.sendTransaction(
             receipt.from.toString(),
