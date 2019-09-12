@@ -67,7 +67,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
         const SDInstance = await SDAbstraction.at(SDAddress);
 
         const coinbase = await web3.eth.getCoinbase();
-        //const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
+        const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
 
         SDInstance.buyShares.sendTransaction(
             receipt.from.toString(),
@@ -163,12 +163,12 @@ router.post('/crypto/sell', cors(corsOptions), async function (
         const SDInstance = await SDAbstraction.at(SDAddress);
 
         const coinbase = await web3.eth.getCoinbase();
-        //const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
-
+        const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 10);
+console.log(sellData.pricelimit);
         SDInstance.sellShares.sendTransaction(
             receipt.from.toString(),
             new BN(sellData.numberofshares),
-            new BN(0),
+            new BN(sellData.pricelimit),
             { from: coinbase, gasPrice: 20 * 10 ** 9 }
         )
             .on('transactionHash', (hash: string) => {
