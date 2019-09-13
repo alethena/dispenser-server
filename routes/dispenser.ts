@@ -184,7 +184,7 @@ console.log(sellData.pricelimit);
                 };
 
                 // FIRST RENDER PDF
-                const price = Math.ceil(receipt.logs[0].args.buyBackPrice / 10 ** 18);
+                const price = Math.floor(receipt.logs[0].args.buyBackPrice / 10 ** 18 * 0.991);
                 const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
