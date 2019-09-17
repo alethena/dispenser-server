@@ -87,7 +87,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
                 };
 
                 // FIRST RENDER PDF
-                const price = Math.ceil(receipt.logs[0].args.totalPrice / 10 ** 18);
+                const price = Math.ceil(receipt.logs[0].args.totalPrice / 10 ** 18 * 1009 /1000);
                 const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
