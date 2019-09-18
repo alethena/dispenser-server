@@ -1,7 +1,6 @@
 const web3Config = {
-  HttpPath: "http://10.209.220.3:8545",
-  InfuraPath: 'wss://rinkeby.infura.io/ws/v3/2a59f4ddc9b14dd5b321f5fbee33f77d',
-  CoinbasePW: 'QuittShares'
+  HttpPath: "http://10.209.220.15:8545",
+  CoinbasePW: 'R621S0TTGYA'
 };
 
 module.exports = web3Config;

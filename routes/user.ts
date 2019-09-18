@@ -20,7 +20,7 @@ router.post('/signup/request', async function (req: Request, res: Response, next
   const requestData: SignupRequest = req.body;
   console.log(requestData.emailAddress);
   const encrypted = QuickEncrypt.encrypt(requestData.emailAddress, keys.public);
-  let link = 'https://api-uat.alethena.com/user/signup/complete/';
+  let link = 'https://sh.alethena.com/user/signup/complete/';
   link += requestData.emailAddress;
   link += '/';
   link += encrypted;
