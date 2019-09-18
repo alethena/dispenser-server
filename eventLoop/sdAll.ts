@@ -28,7 +28,7 @@ async function generateSDAll() {
                     "type": (logItem.buy === 0) ? "Verkauf" : "Kauf",
                     "amount": logItem.amount,
                     "price": Math.floor(logItem.price / 10 ** 16) / 100,
-                    "insider": (logItem.sessionID) ? "https://api-uat.alethena.com/insiderPDFs/" + logItem.sessionID + ".pdf" : 'Nein'
+                    "insider": (logItem.sessionID) ? "https://sh.alethena.com/insiderPDFs/" + logItem.sessionID + ".pdf" : 'Nein'
                 })
             });
             fs.writeFileSync(path.join(__dirname, '../public/dispenser/' + company.tokenSymbol + 'SD.json'), JSON.stringify(outputFile));

@@ -34,7 +34,7 @@ router.post('/', async function (req: Request, res: Response, next: NextFunction
     } catch (error) {
         Raven.captureException(error);
         res.status(500);
-        res.json({ 'error': 'A fuckup happened' });
+        res.json({ 'error': 'An error occured' });
     }
 });
 

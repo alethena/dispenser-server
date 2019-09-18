@@ -37,7 +37,7 @@ const web3 = require('../web3/web3Connection').web3;
 const contract = require('truffle-contract');
 
 const SDABI = require('../abis/ShareDispenserRaw.json');
-const SDAddress = '0x39ABdadA4eC31CA97930aac5E15DD6478AAE0943';
+const SDAddress = '0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395';
 
 const CoinbasePW = require('../web3/web3Config').CoinbasePW;
 
@@ -72,7 +72,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
         SDInstance.buyShares.sendTransaction(
             receipt.from.toString(),
             new BN(buyData.numberofshares),
-            { from: coinbase, gasPrice: 20 * 10 ** 9 }
+            { from: coinbase, gasPrice: 40 * 10 ** 9 }
         )
             .on('transactionHash', (hash: string) => {
                 res.json({ txhash: hash });
@@ -88,7 +88,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
 
                 // FIRST RENDER PDF
                 const price = Math.ceil(receipt.logs[0].args.totalPrice / 10 ** 18 * 1009 /1000);
-                const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
+                const etherscanLink = 'https://etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
                 const PDFData: XCHFPDFData = {
@@ -164,12 +164,12 @@ router.post('/crypto/sell', cors(corsOptions), async function (
 
         const coinbase = await web3.eth.getCoinbase();
         const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 1000);
-console.log(sellData.pricelimit);
+        console.log(sellData.pricelimit);
         SDInstance.sellShares.sendTransaction(
             receipt.from.toString(),
             new BN(sellData.numberofshares),
             new BN(sellData.pricelimit),
-            { from: coinbase, gasPrice: 20 * 10 ** 9 }
+            { from: coinbase, gasPrice: 40 * 10 ** 9 }
         )
             .on('transactionHash', (hash: string) => {
                 res.json({ txhash: hash });
@@ -185,7 +185,7 @@ console.log(sellData.pricelimit);
 
                 // FIRST RENDER PDF
                 const price = Math.floor(receipt.logs[0].args.buyBackPrice / 10 ** 18 * 0.991);
-                const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + receipt.transactionHash;
+                const etherscanLink = 'https://etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
                 const PDFData: XCHFPDFData = {
