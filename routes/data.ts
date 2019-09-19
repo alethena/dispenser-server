@@ -19,13 +19,15 @@ router.get('/prices/:contractAddress', function (req: Request, res: Response, ne
     db.query(sqlQuery, [contract]).then((prices: any) => {
         if (prices[0] !== undefined) {
             let outputArray: any = [];
+            outputArray.push([1568891535, 301]);
             prices.forEach((price: any) => {
                 outputArray.push([new Date(price.timestamp).getTime(), price.lastPrice / 10 ** 18])
             });
             res.send(outputArray);
         } else {
-            res.status(400);
-            res.send('Contract does not exist')
+            res.send([[1568891535000, 301]]);
+            // res.status(400);
+            // res.send('No data available')
         }
     });
 });

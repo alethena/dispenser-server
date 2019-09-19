@@ -59,16 +59,18 @@ router.post('/crypto/buy', cors(corsOptions), async function (
         }
         else if (receipt.status !== true) {
             // HERE WE COULD CHECK ADDITIONAL STUFF!!!!
-            throw 'Approval transactiondid not succeed';
+            throw 'Approval transaction did not succeed';
         }
 
         const SDAbstraction = await contract(SDABI);
         SDAbstraction.setProvider(web3.currentProvider);
         const SDInstance = await SDAbstraction.at(SDAddress);
+        const user = receipt.from.toString();
 
         const coinbase = await web3.eth.getCoinbase();
         const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 1000);
 
+        // console.log(receipt.from.toString(), buyData.numberofshares);
         SDInstance.buyShares.sendTransaction(
             receipt.from.toString(),
             new BN(buyData.numberofshares),
@@ -97,7 +99,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
                     'etherscanLink': etherscanLink,
                     'price': price.toString(),
                     'numberOfShares': buyData.numberofshares,
-                    'walletAddress': receipt.from.toString(),
+                    'walletAddress': user,
                     'emailAddress': buyData.emailAddress
                 };
 
@@ -157,6 +159,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
             // HERE WE COULD CHECK ADDITIONAL STUFF!!!!
             throw 'Approval transactiondid not succeed';
         }
+        const user = receipt.from.toString();
 
         const SDAbstraction = await contract(SDABI);
         SDAbstraction.setProvider(web3.currentProvider);
@@ -194,7 +197,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
                     'etherscanLink': etherscanLink,
                     'price': price.toString(),
                     'numberOfShares': sellData.numberofshares,
-                    'walletAddress': receipt.from.toString(),
+                    'walletAddress': user,
                     'emailAddress': sellData.emailAddress
                 };
 

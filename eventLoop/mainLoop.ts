@@ -10,11 +10,12 @@ Raven.config('https://c62c738ee3954263a16c3f53af05a4e8@sentry.io/1510309').insta
 
 async function main() {
     var j = schedule.scheduleJob('*/1 * * * *', async function () {
-        console.log(new Date());
+        console.log(new Date(), 'Started');
 
         try {
-	  await fetchEquity();
+	//   await fetchEquity();
           await Promise.all([fetchEquity(), fetchSD()]);
+          console.log('Done');
         } catch (error) {
             Raven.captureException(error);
         }
