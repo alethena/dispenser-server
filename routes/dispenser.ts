@@ -89,7 +89,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
                 };
 
                 // FIRST RENDER PDF
-                const price = Math.ceil(receipt.logs[0].args.totalPrice / 10 ** 18 * 1009 /1000);
+                const price = Math.ceil(receipt.logs[0].args.totalPrice / 10 ** 18);
                 const etherscanLink = 'https://etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
@@ -149,7 +149,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
     next: NextFunction
 ) {
     const sellData: XCHFSellData = req.body;
-
+    console.log(sellData);
     try {
         const receipt = await fetchTransactionReceipt(sellData.txhash);
         if (!receipt) {
@@ -187,7 +187,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
                 };
 
                 // FIRST RENDER PDF
-                const price = Math.floor(receipt.logs[0].args.buyBackPrice / 10 ** 18 * 0.991);
+                const price = Math.floor(receipt.logs[0].args.buyBackPrice / 10 ** 18);
                 const etherscanLink = 'https://etherscan.io/tx/' + receipt.transactionHash;
                 const now = new Date();
 
