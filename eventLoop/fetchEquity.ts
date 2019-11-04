@@ -20,7 +20,7 @@ async function fetchEquity() {
         try {
             const latestBlock = await getLatestBlockNumber();
             let companies = await db.query(sql1, []);
-            console.log(companies[0]);
+            console.log(companies);
             companies.forEach(async (company: Company) => {
                 const logs = await fetchEvents(ALEQABI, company.equityAddress, company.equityLastBlock);
                 async.each(logs.filter(isEquityEvent), function (logEntry: Event, callback: any) {

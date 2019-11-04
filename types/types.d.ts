@@ -52,6 +52,17 @@ export interface XCHFPDFData {
     emailAddress: string
 }
 
+export interface EtherPDFData {
+    now: string,
+    type: string,
+    etherscanLink: string,
+    price: string,
+    numberOfShares: number,
+    walletAddress: string,
+    emailAddress: string,
+    etherPrice: string
+}
+
 export interface Company {
     tokenSymbol: string,
     companyName: string,

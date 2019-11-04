@@ -16,7 +16,7 @@ async function fetchSD() {
         const sql1 = `SELECT SDAddress, SDLastBlock FROM companies WHERE SDActive = 1;`;
         var latestBlock = await getLatestBlockNumber();
         var companies = await db.query(sql1, []);
-        console.log(companies[0]);
+        console.log(companies);
 
         companies.forEach(async (company: Company) => {
             const logs = await fetchEvents(SDABI, company.SDAddress, company.SDLastBlock);

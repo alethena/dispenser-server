@@ -1,4 +1,18 @@
 "timestamp","blockNumber","buy","sell","price","volume","amount","fee","insider","user","txhash","contractAddress"
+"2019-10-23T10:15:39.000Z",8796087,true,false,323,323,1,,"Demotransaktion","0x5a57dD9C623e1403AF1D810673183D89724a4e0c","0x163c02ccd0f4c95aeff14e422170807957a4ff8bd7ef2408df0cd8d06065d6bf","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-10-21T16:21:48.000Z",8784947,true,false,320,1600,5,,"I completely disagree with the previous seller estimation and I think selling at this price is crazy! I'm buying back only 5 shares as I'm insider too, and we launched share dispenser for others to have a chance to own a ""piece"" of our great company. 
+I won’t share my prediction of the share price as I think everyone has the right of his own valuation based on their personal circumstances. However, here are few FACTS (not predictions) for thoughts:
+1. The share price almost doubled in less than a year (from CHF 175 in Dec 2018 to CHF 320 on Oct 2019).
+2. Major buyers are insiders, see the recent transactions and list of major shareholders.
+and 3-rd (but not the least) it is only the beginning of our major internal improvements!
+
+I think we are only in the beginning of our exponential growth! Stay tuned, follow our released public reports and buy early, before it’s too late and share dispenser is out of shares.
+","0x52a80CEE683668be4Aa6FE19E5F9128abB7B3457","0xaa1a78c8fc8f6c75fced30e2243056d972e1a298a62b14b02dde67ccde1038bf","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-10-21T07:18:43.000Z",8782575,false,true,320,1600,5,,"We in der letzten Transaktion angekündigt, verkaufe hier nun einzelne Aktien, da der Kurs relativ stark angestiegen ist, nämlich über 7% seit dem Start des Aktienautomaten. Langfristig halte ich ein Wachstum von 20% bis 30% im Jahr für vernünftiger, was etwa 2% im Monat entsprechen würde.","0x7497493f6259E2b34d2b8daBbFdE5A85870c88FB","0xf1831c9005289bb537de888b1a2b2bd955d23796d20112c70ad3fae0e37106d1","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-10-21T03:35:51.000Z",8781600,true,false,322,322,1,,"Nein","0x34657465D1b9f9e1ed97a4B076113a9a56DDc966","0x630c202c2a36659662325b7f5db1dd87db2efdb2b727f8ff7b68d580fcb48ce2","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-10-17T10:09:32.000Z",8757944,true,false,320,960,3,,"Nein","0xA292700f8D49362b54b0CB9c4aA41Ee718f5314e","0x47e3d63c93da733f7ba77fa9e5bd2f13035c2096e9e72d94f0f03597514cc08f","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-10-10T07:52:50.000Z",8712799,true,false,318,318,1,,"Nein","0xdCFF65a5e9ceb5388379924fED15F737eeBe2209","0x6c6f7f6a85f4337dcd06e0d3f2450f8f5f173bf2d22e11c8a35e397945f9995a","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-09-29T18:00:36.000Z",8645148,true,false,317,317,1,,"Nein","0xfD72c56bB9082a340b405d34825832Bc16D823c0","0x5e7295c652f3c8857c8d5fa74e63f7b179ae5db1d3d280ebf5d8ebd823a12ee7","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
 "2019-09-24T09:33:15.000Z",8610967,false,true,318,954,3,,"Verkauf der drei Aktien, die ich zur Demonstration am Launch-Event gekauft habe und Kurspflege. Weitere Verkäufe könnten folgen, wenn der Kurs zu steil nach oben geht.","0x5a57dD9C623e1403AF1D810673183D89724a4e0c","0x22fd8a36daf3309ac96713c3f007bd4d7f07dab559be56f86a3dd51f3d012068","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
 "2019-09-22T14:10:16.000Z",8599460,true,false,314.5,3145,10,,"Nein","0x11a38a15783ab43c072C5444D4629B22D2F3dF2E","0xaa908cb4a90339a6ae37abe19c15ab54ebfab4dede91db41249993c13bc46a5b","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
 "2019-09-22T12:41:53.000Z",8599041,true,false,308,924,3,,"Nein","0xC6e2D38bB43ef305967E3090D0cC3A5d11Ed6C45","0xe9a41069f64672083e2a8116744bec97ad210c35bf12d32920420dd66de45481","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { XCHFBuyData, XCHFSellData, PaymentData, XCHFPDFData, MailParams } from '../types/types';
+import { XCHFBuyData, XCHFSellData, PaymentData, XCHFPDFData, MailParams, EtherPDFData } from '../types/types';
 import { TransactionReceipt } from 'web3/types';
 const sendMail = require('../mailer/transporter');
 const htmlToPDF = require('../mailer/generatePDF');
@@ -28,6 +28,7 @@ const corsOptions = {
 }
 
 const fetchTransactionReceipt = require('../web3/helpers/fetchTransactionReceipt');
+const fetchTransaction = require('../web3/helpers/fetchTransaction');
 
 const express = require('express');
 const router = express.Router();
@@ -65,7 +66,7 @@ router.post('/crypto/buy', cors(corsOptions), async function (
         const SDAbstraction = await contract(SDABI);
         SDAbstraction.setProvider(web3.currentProvider);
         const SDInstance = await SDAbstraction.at(SDAddress);
-        const user = receipt.from.toString();
+        const user = receipt.from.toString();
 
         const coinbase = await web3.eth.getCoinbase();
         const unlocked = await web3.eth.personal.unlockAccount(coinbase, CoinbasePW, 1000);
@@ -159,7 +160,7 @@ router.post('/crypto/sell', cors(corsOptions), async function (
             // HERE WE COULD CHECK ADDITIONAL STUFF!!!!
             throw 'Approval transactiondid not succeed';
         }
-        const user = receipt.from.toString();
+        const user = receipt.from.toString();
 
         const SDAbstraction = await contract(SDABI);
         SDAbstraction.setProvider(web3.currentProvider);
@@ -289,6 +290,70 @@ router.post('/fiat/', cors(corsOptions), async function (
         res.send({ 'error': 'An error occured, sorry!' })
     }
 
-})
+});
+
+router.post('/ether/buy', cors(corsOptions), async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const buyData: XCHFBuyData = req.body;
+        const receipt = await fetchTransactionReceipt(buyData.txhash);
+        const txn = await fetchTransaction(buyData.txhash);
+        const etherAmount = txn.value;
+        if (!receipt) {
+            throw 'Approval transaction does not exist';
+        }
+        else if (receipt.status !== true) {
+            // HERE WE COULD CHECK ADDITIONAL STUFF!!!!
+            throw 'Approval transactiondid not succeed';
+        }
+
+        // console.log(receipt.logs[0]);
+
+        // FIRST RENDER PDF
+
+        const price2 = new BN(web3.eth.abi.decodeParameter('uint256', receipt.logs[2].data));
+        const xchfPrice = Math.ceil(web3.utils.fromWei(price2) * 100) / 100;
+        const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + buyData.txhash;
+        const now = new Date();
+        const etherPrice = Math.ceil(web3.utils.fromWei(etherAmount) * 100) / 100;
+
+        const PDFData: EtherPDFData = {
+            'now': now.toDateString(),
+            'type': 'Buy',
+            'etherscanLink': etherscanLink,
+            'price': xchfPrice.toString(),
+            'numberOfShares': buyData.numberofshares,
+            'walletAddress': receipt.from.toString(),
+            'emailAddress': buyData.emailAddress,
+            'etherPrice': etherPrice.toString()
+        };
+
+        const renderedHtmlPDF = await ejs.renderFile(path.join(__dirname, '../mailer/templates/pdfTemplates/etherBuyPDF/etherBuyPDF.ejs'), PDFData);
+        const pdfFile = await htmlToPDF(renderedHtmlPDF);
+
+        // THEN RENDER MAIL
+        const style = fs.readFileSync(path.join(__dirname, '../mailer/templates/mailTemplates/overallCSS/basic.html'));
+
+        const renderedHtmlMail = await ejs.renderFile(path.join(__dirname, '../mailer/templates/mailTemplates/xchfBuy/xchfBuy.ejs'), { 'style': style });
+
+        // THEN SEND EMAIL!
+        const mailParams: MailParams = {
+            'to': [buyData.emailAddress],
+            'subject': 'Your Share Transaction',
+            'html': renderedHtmlMail,
+            'attachments': [{ 'filename': 'ShareTransaction.pdf', 'content': pdfFile }]
+        }
+        await sendMail(mailParams);
+
+        res.json({ txhash: buyData.txhash });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+});
 
 module.exports = router;
