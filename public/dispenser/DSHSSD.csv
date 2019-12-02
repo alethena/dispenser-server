@@ -1,4 +1,7 @@
 "timestamp","blockNumber","buy","sell","price","volume","amount","fee","insider","user","txhash","contractAddress"
+"2019-11-06T10:51:33.000Z",8883433,false,true,325,325,1,,"Nein","0x090CA3d149293F7b440f9c79C02adfD4D3B4b262","0xb2a38cc0904b5749b24f68e1111144d8a3131f1b62069e7b10cccd43ae77b513","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-11-06T09:22:51.000Z",8883028,true,false,325,325,1,,"Nein","0x1043bcEf83f3575AC0b2360f6f20c2AA86FA4CF8","0xab4c76275f38beeac7a02b4c6ef06c8ad27e6eadcc76b37cc9c93cf1ae86e1ed","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
+"2019-11-05T12:55:45.000Z",8877677,true,false,324,324,1,,"Demotransaktion","0x5a57dD9C623e1403AF1D810673183D89724a4e0c","0x21562102d81d48363aaaebc1232808118dd40ced010759c78491dbde5e795b36","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
 "2019-10-23T10:15:39.000Z",8796087,true,false,323,323,1,,"Demotransaktion","0x5a57dD9C623e1403AF1D810673183D89724a4e0c","0x163c02ccd0f4c95aeff14e422170807957a4ff8bd7ef2408df0cd8d06065d6bf","0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395"
 "2019-10-21T16:21:48.000Z",8784947,true,false,320,1600,5,,"I completely disagree with the previous seller estimation and I think selling at this price is crazy! I'm buying back only 5 shares as I'm insider too, and we launched share dispenser for others to have a chance to own a ""piece"" of our great company. 
 I won’t share my prediction of the share price as I think everyone has the right of his own valuation based on their personal circumstances. However, here are few FACTS (not predictions) for thoughts:

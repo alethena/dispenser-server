@@ -316,7 +316,7 @@ router.post('/ether/buy', cors(corsOptions), async function (
 
         const price2 = new BN(web3.eth.abi.decodeParameter('uint256', receipt.logs[2].data));
         const xchfPrice = Math.ceil(web3.utils.fromWei(price2) * 100) / 100;
-        const etherscanLink = 'https://rinkeby.etherscan.io/tx/' + buyData.txhash;
+        const etherscanLink = 'https://etherscan.io/tx/' + buyData.txhash;
         const now = new Date();
         const etherPrice = Math.ceil(web3.utils.fromWei(etherAmount) * 100) / 100;
 

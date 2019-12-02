@@ -20,6 +20,8 @@ async function generateSDAll() {
         //console.log(company.SDAddress);
         let outputFile: any = [];
         let outputFile2: any = [];
+        let outputFile3: any = [];
+
         const sql2 = `select * from SDTransactions left join insiderTrades on SDTransactions.txhash = insiderTrades.txHash order by timestamp DESC;`;
         db.query(sql2, [company.SDAddress]).then(async (log: EventLog[]) => {
             log.forEach((logItem: any) => {
@@ -32,6 +34,17 @@ async function generateSDAll() {
                 })
             });
             fs.writeFileSync(path.join(__dirname, '../public/dispenser/' + company.tokenSymbol + 'SD.json'), JSON.stringify(outputFile));
+
+            log.forEach((logItem: any) => {
+                outputFile3.push({
+                    "timestamp": new Date(logItem.timestamp).getTime(),
+                    "type": (logItem.buy === 0) ? "Verkauf" : "Kauf",
+                    "amount": logItem.amount,
+                    "price": Math.floor(logItem.price / 10 ** 16) / 100,
+                    "insider": (logItem.sessionID) ? logItem.insiderInformation  : 'Nein'
+                })
+            });
+            fs.writeFileSync(path.join(__dirname, '../public/dispenser/' + company.tokenSymbol + 'SDText.json'), JSON.stringify(outputFile3));
 
             log.forEach((logItem: any) => {
                 outputFile2.push({
