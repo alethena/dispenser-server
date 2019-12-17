@@ -6,8 +6,9 @@ var web3;
 
 try {
     web3 = new Web3(
-        new Web3.providers.HttpProvider(
-            config.HttpPath
+        new Web3.providers.IpcProvider(
+            config.IpcPath,
+            net
         )
     );
 

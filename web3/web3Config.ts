@@ -1,5 +1,5 @@
 const web3Config = {
-  HttpPath: "http://10.209.220.16:8545",
+  IpcPath: "/root/.ethereum/geth.ipc",
   CoinbasePW: 'R621S0TTGYA'
 };
 

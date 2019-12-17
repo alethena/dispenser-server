@@ -1,5 +1,5 @@
 const config = {
-    'mysqlString': 'mysql://admin:TWHGFOXMUYORNDXH@sl-us-south-1-portal.57.dblayer.com:25575/dispenser'
+    'mysqlString': 'mysql://benjamin:WW84Ee1wu3el@localhost:3306/quitt'
 }
 
 module.exports.config = config;

@@ -43,7 +43,7 @@ const SDAddress = '0x6666f4aAc97c9a9d40Ef04f086805a6fB54de395';
 const CoinbasePW = require('../web3/web3Config').CoinbasePW;
 
 const Raven = require('raven');
-Raven.config('https://c62c738ee3954263a16c3f53af05a4e8@sentry.io/1510309').install();
+Raven.config('https://859b08c222a44baf887d309907267edc@sentry.io/1860345').install();
 
 /* POST a request to verify email address*/
 router.post('/crypto/buy', cors(corsOptions), async function (
